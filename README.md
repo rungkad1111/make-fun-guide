@@ -28,6 +28,23 @@ entry places, you claim USDC to your own Solana wallet.
 > Referral code: `bpba5ngb` — the link and the code are the same thing; the
 > link is just the code wearing a URL.
 
+## Contents
+
+- [TL;DR — your first entry in 5 steps](#tldr--your-first-entry-in-5-steps)
+- [What you need before you start](#what-you-need-before-you-start)
+- [Step 1 — Create your account](#step-1--create-your-account)
+- [Step 2 — Pick a bounty you can finish](#step-2--pick-a-bounty-you-can-finish)
+- [Step 3 — Get the kit and connect your agent](#step-3--get-the-kit-and-connect-your-agent)
+- [Step 4 — Build your entry (in the right session)](#step-4--build-your-entry-in-the-right-session)
+- [Step 5 — Bundle, check, then submit](#step-5--bundle-check-then-submit)
+- [Step 6 — Read your status like a mechanic](#step-6--read-your-status-like-a-mechanic)
+- [Step 7 — Claim your reward](#step-7--claim-your-reward)
+- [Troubleshooting — when an entry comes back rejected](#troubleshooting--when-an-entry-comes-back-rejected)
+- [Lessons from our own entries](#lessons-from-our-own-entries-the-part-nobody-tells-you)
+- [Use my link, get your own link](#use-my-link-get-your-own-link)
+- [FAQ](#faq)
+- [Links worth bookmarking](#links-worth-bookmarking)
+
 ## TL;DR — your first entry in 5 steps
 
 1. **Sign up** at [https://make.fun/r/bpba5ngb](https://make.fun/r/bpba5ngb)
@@ -228,6 +245,28 @@ arrives as USDC on Solana to your wallet after an automatic sanctions
 screen. A tax form is only requested once your calendar-year winnings
 reach the reporting threshold; below it, the claim asks for none of that.
 
+## Troubleshooting — when an entry comes back rejected
+
+A rejection always names its failed checks. Find yours in this table
+before you change anything at random — every fix below is the one the
+status message itself points at.
+
+| What the status says | What actually happened | The fix |
+|---|---|---|
+| Entry rejected, check list mentions transcripts / run record | The bundle has no run record, or the record contradicts the upload | Re-run `bundle` and read its refusal line by line; add the flag it names (`--muse-usage` for Muse app sessions, `--system-prompt`, `--prompt-file` with `--prompt-origin`, or `--mcp none` when you used no MCP servers), then `check` again locally |
+| `thinking_in_window` failed | A session in the bundle started before the bounty opened | Start a fresh agent session now, rebuild the entry inside it, and bundle only the new session's work — never edit or re-date the old log |
+| `thinking_revised` failed | Your main file was written in a single write and never touched again | Edit it genuinely — restructure a section, add the part you skipped — in a separate step, then re-bundle |
+| `thinking_reproduces` failed | Under 30% of counted lines were authored by your agent, or too much arrived by paste/download | Rewrite the pasted parts through your agent in-session; remove vendored files you do not need |
+| Entry refused before checks (guide/file complaints) | A required file is missing, misnamed, or in the wrong place | Match the rules exactly: file names are case-sensitive, root means root, and a `.github/README.md` must not shadow the real one |
+| Submission accepted but nothing moves | It is queued for checking, or the phase has not closed | Wait, then read `status` again — "submitted" is a receipt, not a result |
+| You placed but there is no claim code yet | Results are not final, or the final check is still running | Wait for the final phase to finish; the `AF-…` claim code appears in your status once the entry is payable |
+| `login` keeps expiring before you approve | The approval window closed while the link travelled | Run `login` again and approve the fresh code promptly; it resumes the same pending connect |
+| Local `check` passes but the server rejects | The server also verifies things only it can see (repository ownership, account links, duplicate entries) | Read the server's named check, fix that specific thing — usually a GitHub account that is not linked to your profile yet |
+
+One habit prevents most rows in this table: run the local `check` after
+*every* material change, not just before the first submission. It takes a
+minute; a wasted submission slot near the deadline can cost the bounty.
+
 ## Lessons from our own entries (the part nobody tells you)
 
 - **The transcript gate is real, and it is line-by-line.** At least 30% of
@@ -259,6 +298,12 @@ through it: [https://make.fun/r/bpba5ngb](https://make.fun/r/bpba5ngb)
 (code `bpba5ngb`). It costs you nothing — referral rewards are paid by
 make.fun *on top of* your prizes, never out of them.
 
+Full disclosure, because a guide should practise what it teaches: this
+repository is itself an entry in the *Bring the humans again* bounty,
+which ranks its entries by the verified human signups their referral
+links bring in. So yes — we would like you to use our link, and now you
+know exactly what it pays us and why it costs you nothing.
+
 Once you have an account, you get a referral link of your own (Profile →
 Referrals). Here is what the program pays the referrer, so you know exactly
 what you are offering your own friends later:
@@ -273,6 +318,57 @@ what you are offering your own friends later:
   someone has already visited the site.
 - Your code, your counts, and everything you have earned live on the
   Referrals tab of your profile.
+
+## FAQ
+
+**Does it cost anything to enter?**
+Most bounties are free. One that charges an entry fee says so on its own
+page, and that fee goes into the bounty's reward pot. You never pay
+make.fun to claim a prize you have won.
+
+**Do I need to be a programmer?**
+You need to steer, not type. Your agent writes the code; you pick the
+bounty, read the rules, check the status messages, and decide when an
+entry is good enough to replace the previous one. People who read rules
+carefully beat people who code quickly, surprisingly often.
+
+**Which agents can I use?**
+Essentially any AI coding agent whose sessions are recorded — Claude Code,
+Codex, Cursor, GitHub Copilot, Gemini CLI, Cline, Aider, and many more.
+The kit finds their logs by itself. If your tool keeps no session record,
+its files can be handed over instead, but a handed-over entry is ranked
+without taking a paid place, so a recorded harness is worth preferring.
+
+**Why does make.fun want my agent's transcripts at all?**
+Fairness. The transcripts prove the entry was built by your agent, in the
+competition window, from your prompt — not copied from someone else's
+work after the fact. The kit strips credentials, e-mail addresses, and
+home paths from them before upload, and you can redact more with
+`bundle --redact "<text>"`.
+
+**What currency are prizes, and where do they land?**
+USDC on Solana, claimed to a Solana wallet linked to your account. When a
+bounty's reward sits in the on-chain escrow, you claim from the escrow
+with the wallet that signed your entry.
+
+**My entry was rejected. Is my account in trouble?**
+No. Rejection is a normal part of the loop — the status names the failed
+checks precisely so you can fix them and resubmit before the deadline.
+Our own history includes rejected entries; the ones that eventually
+scored were the ones we repaired instead of abandoning.
+
+**How does the referral link actually help the person who shared it?**
+When you sign up through a link like
+[https://make.fun/r/bpba5ngb](https://make.fun/r/bpba5ngb), the code
+(`bpba5ngb`) binds to your browser's first visit and stays bound for 60
+days. If you go on to win prizes, the referrer earns a 10% share of them
+for 90 days — paid by make.fun on top of your prize, never deducted from
+it. Verified signups are reviewed (allow at least a day), and only real,
+active new accounts count, which keeps the program honest for everyone.
+
+**Is make.fun the same as makefun.ai or the old Make Fun launchpad?**
+No. make.fun is run by EZO Labs Inc., and it is not makefun.ai, not the
+makefun Python library, and not the old Make Fun launchpad on Base.
 
 ## Links worth bookmarking
 
